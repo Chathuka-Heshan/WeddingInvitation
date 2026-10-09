@@ -1,0 +1,173 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-bg-ivory: #FAF8F5;
+    --color-bg-sand: #F8F4EA;
+    --color-olive-dark: #37432B;
+    --color-olive-mid: #51603F;
+    --color-olive-light: #6B7F59;
+    --color-gold: #C5A267;
+    --color-gold-light: #F0E0B2;
+    --color-gold-dark: #8F723D;
+    --color-rose-soft: #FDF2F4;
+    --color-text-main: #2C3325;
+    --color-text-muted: #6B7280;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: var(--color-text-main);
+    background-color: var(--color-bg-ivory);
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+}
+
+/* Typography Classes */
+.font-tenor {
+  font-family: 'Tenor Sans', sans-serif;
+}
+
+.font-script {
+  font-family: 'Alex Brush', cursive;
+}
+
+.font-calligraphy {
+  font-family: 'Great Vibes', cursive;
+}
+
+.font-cinzel {
+  font-family: 'Cinzel', serif;
+}
+
+.font-serif-classic {
+  font-family: 'Cormorant Garamond', serif;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+}
+::-webkit-scrollbar-track {
+  background: #FAF8F5;
+}
+::-webkit-scrollbar-thumb {
+  background: #C5A267;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #8F723D;
+}
+
+/* Luxury Foil & Gradient Accents */
+.text-gold-shimmer {
+  background: linear-gradient(135deg, #A88448 0%, #E8D39E 35%, #C5A267 70%, #947132 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.bg-gold-shimmer {
+  background: linear-gradient(135deg, #C5A267 0%, #F5E6BD 50%, #C5A267 100%);
+}
+
+.border-gold-gradient {
+  border-image: linear-gradient(to bottom right, #C5A267, #F5E6BD, #C5A267) 1;
+}
+
+/* Arched Envelope Card Styles */
+.arch-card {
+  border-top-left-radius: 9999px;
+  border-top-right-radius: 9999px;
+  border-bottom-left-radius: 9999px;
+  border-bottom-right-radius: 9999px;
+}
+
+.arch-top-card {
+  border-top-left-radius: 400px;
+  border-top-right-radius: 400px;
+}
+
+/* Particle Canvas for Petals */
+#petal-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 15;
+}
+
+/* Smooth Scroll Reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Ambient Glow & Animations */
+@keyframes spinSlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin-slow {
+  animation: spinSlow 12s linear infinite;
+}
+
+@keyframes floatGentle {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+.animate-float {
+  animation: floatGentle 4s ease-in-out infinite;
+}
+
+@keyframes blob {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(25px, -30px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.95); }
+}
+
+.animate-blob {
+  animation: blob 8s infinite alternate;
+}
+
+/* Scratch Card Styling */
+.scratch-box {
+  position: relative;
+  width: 100px;
+  height: 120px;
+  background: #FAF8F5;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 10px 25px -5px rgba(55, 67, 43, 0.15);
+  border: 3px solid #51603F;
+}
+
+@media (min-width: 768px) {
+  .scratch-box {
+    width: 130px;
+    height: 145px;
+  }
+}
+
+.scratch-card-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  touch-action: none;
+  z-index: 5;
+}
