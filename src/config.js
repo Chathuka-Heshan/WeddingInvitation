@@ -4,5 +4,5 @@
 export const CONFIG = {
   // Paste your deployed Google Apps Script Web App URL here:
   // Example: "https://script.google.com/macros/s/AKfycb.../exec"
-  GOOGLE_SCRIPT_URL: import.meta.env.VITE_GOOGLE_SCRIPT_URL || ""
+  GOOGLE_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbyAqZnRdYMx2BZ4OUa2t7-OKgZYr7Ft8H2dP-I-AcH-MCQCKqiCf0P6wskqAUXNcNpPfg/exec"
 };
