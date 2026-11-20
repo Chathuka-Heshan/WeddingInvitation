@@ -1,4 +1,5 @@
 import confetti from 'canvas-confetti';
+import { CONFIG } from '../config.js';
 
 export function initRSVPForm() {
   const form = document.getElementById('rsvp-form');
@@ -56,8 +57,11 @@ export function initRSVPForm() {
     });
   }
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
+
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalBtnText = submitBtn ? submitBtn.innerHTML : 'Send RSVP with Love';
 
     const name = document.getElementById('rsvp-name')?.value.trim();
     const email = document.getElementById('rsvp-email')?.value.trim();
@@ -85,8 +89,46 @@ export function initRSVPForm() {
       submittedAt: new Date().toISOString()
     };
 
+    // UI: Show loading state
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = `
+        <span class="inline-flex items-center justify-center gap-2">
+          <svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          Recording RSVP...
+        </span>
+      `;
+    }
+
+    // 1. Send data to Google Sheets via Apps Script Webhook
+    if (CONFIG.GOOGLE_SCRIPT_URL && CONFIG.GOOGLE_SCRIPT_URL.trim() !== '') {
+      try {
+        await fetch(CONFIG.GOOGLE_SCRIPT_URL.trim(), {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {
+            'Content-Type': 'text/plain;charset=utf-8'
+          },
+          body: JSON.stringify(submission)
+        });
+      } catch (err) {
+        console.warn('Network issue submitting to Google Sheets:', err);
+      }
+    }
+
+    // 2. Save submission locally in browser storage
     localStorage.setItem('wedding_rsvp_dilsha_chathuka', JSON.stringify(submission));
 
+    // 3. Reset button
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalBtnText;
+    }
+
+    // 4. Show success modal & confetti
     if (modalGuestName) modalGuestName.textContent = name;
     if (successModal) successModal.classList.remove('hidden');
 
