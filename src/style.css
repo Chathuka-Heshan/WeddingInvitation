@@ -2,24 +2,21 @@
 
 @layer base {
   :root {
-    --color-bg-ivory: #FAF8F5;
-    --color-bg-sand: #F8F4EA;
-    --color-olive-dark: #37432B;
-    --color-olive-mid: #51603F;
-    --color-olive-light: #6B7F59;
-    --color-gold: #C5A267;
-    --color-gold-light: #F0E0B2;
-    --color-gold-dark: #8F723D;
-    --color-rose-soft: #FDF2F4;
-    --color-text-main: #2C3325;
-    --color-text-muted: #6B7280;
+    --iv-bg: #FAF8F5;
+    --iv-bg-warm: #F3EFE8;
+    --iv-gold: #A98A4A;
+    --iv-gold-light: #C5A267;
+    --iv-text-dark: #463E36;
+    --iv-text-primary: #5A4D41;
+    --iv-text-muted: #837769;
+    --iv-border: rgba(169, 138, 74, 0.35);
   }
 
   html {
     scroll-behavior: smooth;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    color: var(--color-text-main);
-    background-color: var(--color-bg-ivory);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    color: var(--iv-text-dark);
+    background-color: var(--iv-bg);
   }
 
   body {
@@ -27,30 +24,27 @@
   }
 }
 
-/* Typography Classes */
-.font-tenor {
-  font-family: 'Tenor Sans', sans-serif;
+/* Typography matching the Ivory Seal Template */
+.font-cinzel {
+  font-family: 'Cinzel Decorative', 'Cinzel', serif;
 }
 
 .font-script {
-  font-family: 'Alex Brush', cursive;
+  font-family: 'Mea Culpa', 'Alex Brush', cursive;
 }
 
-.font-calligraphy {
-  font-family: 'Great Vibes', cursive;
+.font-caps {
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: 0.22em;
 }
 
-.font-cinzel {
-  font-family: 'Cinzel', serif;
-}
-
-.font-serif-classic {
-  font-family: 'Cormorant Garamond', serif;
+.font-serif-body {
+  font-family: 'Cormorant Garamond', Georgia, serif;
 }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 7px;
+  width: 6px;
 }
 ::-webkit-scrollbar-track {
   background: #FAF8F5;
@@ -59,115 +53,222 @@
   background: #C5A267;
   border-radius: 4px;
 }
-::-webkit-scrollbar-thumb:hover {
-  background: #8F723D;
-}
 
-/* Luxury Foil & Gradient Accents */
-.text-gold-shimmer {
-  background: linear-gradient(135deg, #A88448 0%, #E8D39E 35%, #C5A267 70%, #947132 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.bg-gold-shimmer {
-  background: linear-gradient(135deg, #C5A267 0%, #F5E6BD 50%, #C5A267 100%);
-}
-
-.border-gold-gradient {
-  border-image: linear-gradient(to bottom right, #C5A267, #F5E6BD, #C5A267) 1;
-}
-
-/* Arched Envelope Card Styles */
-.arch-card {
-  border-top-left-radius: 9999px;
-  border-top-right-radius: 9999px;
-  border-bottom-left-radius: 9999px;
-  border-bottom-right-radius: 9999px;
-}
-
-.arch-top-card {
-  border-top-left-radius: 400px;
-  border-top-right-radius: 400px;
-}
-
-/* Particle Canvas for Petals */
-#petal-canvas {
+/* Envelope Curtain & Opening */
+#invitation-curtain {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-  z-index: 15;
-}
-
-/* Smooth Scroll Reveal */
-.reveal {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.reveal.active {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Ambient Glow & Animations */
-@keyframes spinSlow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-.animate-spin-slow {
-  animation: spinSlow 12s linear infinite;
-}
-
-@keyframes floatGentle {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-8px); }
-}
-
-.animate-float {
-  animation: floatGentle 4s ease-in-out infinite;
-}
-
-@keyframes blob {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(25px, -30px) scale(1.1); }
-  66% { transform: translate(-20px, 20px) scale(0.95); }
-}
-
-.animate-blob {
-  animation: blob 8s infinite alternate;
-}
-
-/* Scratch Card Styling */
-.scratch-box {
-  position: relative;
-  width: 100px;
-  height: 120px;
-  background: #FAF8F5;
-  border-radius: 1rem;
+  inset: 0;
+  z-index: 600;
   overflow: hidden;
-  box-shadow: 0 10px 25px -5px rgba(55, 67, 43, 0.15);
-  border: 3px solid #51603F;
+  background: #F3EFE8;
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1), transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-@media (min-width: 768px) {
-  .scratch-box {
-    width: 130px;
-    height: 145px;
-  }
+#invitation-curtain.leaving {
+  opacity: 0;
+  transform: scale(1.04);
+  pointer-events: none;
 }
 
-.scratch-card-canvas {
+/* 1. Mobile & Default (edge to edge full screen) */
+.ivs-card {
   position: absolute;
   top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  background: #F3EFE8;
+}
+
+.ivs-copy {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
   cursor: pointer;
-  touch-action: none;
-  z-index: 5;
+  padding: max(6.5vh, calc(env(safe-area-inset-top) + 26px)) 24px max(6.5vh, calc(env(safe-area-inset-bottom) + 26px));
+  transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
+  z-index: 10;
+  pointer-events: auto;
+}
+
+.ivs-veil {
+  display: block;
+}
+
+/* 2. Tablet Portrait (min-width: 768px and portrait) */
+@media (min-width: 768px) and (max-aspect-ratio: 23/20) {
+  .ivs-card, .ivs-copy {
+    right: auto;
+    bottom: auto;
+    left: 50%;
+    top: 50%;
+    width: calc(92vh * 9 / 16);
+    height: 92vh;
+    aspect-ratio: 9 / 16;
+    transform: translate(-50%, -50%);
+    border-radius: 22px;
+  }
+  .ivs-card {
+    box-shadow: 0 40px 90px -30px rgba(70, 55, 40, 0.45), 0 0 0 1px rgba(169, 138, 74, 0.35);
+  }
+}
+
+/* 3. Desktop / Laptop Landscape: Opulent Side-by-Side Composition filling the screen */
+@media (min-aspect-ratio: 23 / 20) {
+  .ivs-card, .ivs-copy {
+    right: auto;
+    bottom: auto;
+    top: 50%;
+    aspect-ratio: auto;
+  }
+  .ivs-card {
+    left: 54%;
+    height: 88vh;
+    width: calc(88vh * 9 / 16);
+    aspect-ratio: 9 / 16;
+    transform: translate(0, -50%);
+    border-radius: 20px;
+    box-shadow: 0 40px 90px -30px rgba(70, 55, 40, 0.45), 0 0 0 1px rgba(169, 138, 74, 0.35);
+    transition: left 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  #invitation-curtain.playing .ivs-card {
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .ivs-copy {
+    left: auto;
+    right: 48%;
+    width: min(44vw, 520px);
+    height: auto;
+    max-height: 90vh;
+    transform: translate(0, -50%);
+    justify-content: center;
+    gap: clamp(14px, 3.2vh, 32px);
+    padding: clamp(26px, 4vh, 44px) clamp(24px, 2.8vw, 40px);
+    border-radius: 24px;
+    background: rgba(251, 249, 244, 0.88);
+    border: 1px solid rgba(169, 138, 74, 0.35);
+    box-shadow: 0 30px 70px -40px rgba(70, 55, 40, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.6) inset;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+  .ivs-veil {
+    display: none;
+  }
+}
+
+#invitation-curtain.playing .ivs-copy {
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-40px, -50%);
+}
+
+@media (max-width: 767px) {
+  #invitation-curtain.playing .ivs-copy {
+    transform: none;
+  }
+}
+
+/* Shimmer Pill Button */
+.ivs-pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  overflow: hidden;
+  border-radius: 9999px;
+  padding: 0.95rem 2.2rem;
+  font-size: 0.76rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  color: #FFFCF6;
+  background: linear-gradient(135deg, #7A6B5D 0%, #5A4D41 100%);
+  box-shadow: 0 14px 30px -14px rgba(59, 49, 41, 0.6), 0 0 0 1px rgba(169, 138, 74, 0.7);
+  transition: all 0.3s ease;
+}
+
+.ivs-pill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 36px -12px rgba(59, 49, 41, 0.7), 0 0 0 1px rgba(169, 138, 74, 0.9);
+}
+
+.ivs-pill-shimmer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -50%;
+  width: 50%;
+  transform: skewX(-20deg);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  animation: shimmerMove 3.5s infinite;
+}
+
+@keyframes shimmerMove {
+  0% { left: -60%; }
+  40%, 100% { left: 140%; }
+}
+
+/* Floating Ivory Petals Animation */
+@keyframes lvPetalFall {
+  from { transform: translateY(-10vh); }
+  to { transform: translateY(112vh); }
+}
+
+@keyframes lvPetalSway {
+  from { transform: translateX(-12px) rotate(-26deg); }
+  to { transform: translateX(12px) rotate(26deg); }
+}
+
+.falling-petal {
+  position: absolute;
+  top: 0;
+  pointer-events: none;
+  animation-name: lvPetalFall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.falling-petal-inner {
+  border-radius: 52% 0 52% 52%;
+  background: radial-gradient(circle at 32% 28%, #FFFFFF, #F6F1E6);
+  opacity: 0.45;
+  box-shadow: 0 1px 3px rgba(120, 90, 60, 0.1);
+  animation-name: lvPetalSway;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+/* Arched Couple Card */
+.ivory-arch-card {
+  border-radius: 280px 280px 20px 20px;
+  border: 1px solid rgba(169, 138, 74, 0.4);
+  box-shadow: 0 35px 70px -34px rgba(70, 40, 30, 0.45);
+  background: #FFFDF8;
+}
+
+/* Scroll Reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
 }

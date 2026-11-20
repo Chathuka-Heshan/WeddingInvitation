@@ -9,16 +9,72 @@ export function initRSVPForm() {
   const rsvpSavedCard = document.getElementById('rsvp-saved-card');
   const savedGuestDetails = document.getElementById('saved-guest-details');
   const editRsvpBtn = document.getElementById('edit-rsvp-btn');
-  const calendarBtn = document.getElementById('google-calendar-btn');
+  const calendarBtns = document.querySelectorAll('.calendar-add-btn');
+
+  // Attendance Pills state
+  const btnAccept = document.getElementById('btn-rsvp-accept');
+  const btnDecline = document.getElementById('btn-rsvp-decline');
+  const attendanceInput = document.getElementById('rsvp-attendance');
+  const guestCountRow = document.getElementById('guest-count-row');
+
+  // Headcount Stepper
+  const guestMinus = document.getElementById('guest-minus');
+  const guestPlus = document.getElementById('guest-plus');
+  const guestDisplay = document.getElementById('guest-count-display');
+  const guestInput = document.getElementById('rsvp-guests');
+  let currentGuests = 1;
+
+  if (guestMinus && guestPlus && guestDisplay && guestInput) {
+    guestMinus.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (currentGuests > 1) {
+        currentGuests--;
+        guestDisplay.textContent = currentGuests;
+        guestInput.value = currentGuests;
+      }
+    });
+
+    guestPlus.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (currentGuests < 6) {
+        currentGuests++;
+        guestDisplay.textContent = currentGuests;
+        guestInput.value = currentGuests;
+      }
+    });
+  }
+
+  // Toggle Attendance Pills
+  if (btnAccept && btnDecline && attendanceInput) {
+    btnAccept.addEventListener('click', (e) => {
+      e.preventDefault();
+      attendanceInput.value = 'yes';
+      btnAccept.classList.add('bg-[#5A4D41]', 'text-white', 'border-[#5A4D41]');
+      btnAccept.classList.remove('bg-white', 'text-[#5A4D41]');
+      btnDecline.classList.remove('bg-[#5A4D41]', 'text-white', 'border-[#5A4D41]');
+      btnDecline.classList.add('bg-white', 'text-[#5A4D41]');
+      if (guestCountRow) guestCountRow.classList.remove('hidden');
+    });
+
+    btnDecline.addEventListener('click', (e) => {
+      e.preventDefault();
+      attendanceInput.value = 'no';
+      btnDecline.classList.add('bg-[#5A4D41]', 'text-white', 'border-[#5A4D41]');
+      btnDecline.classList.remove('bg-white', 'text-[#5A4D41]');
+      btnAccept.classList.remove('bg-[#5A4D41]', 'text-white', 'border-[#5A4D41]');
+      btnAccept.classList.add('bg-white', 'text-[#5A4D41]');
+      if (guestCountRow) guestCountRow.classList.add('hidden');
+    });
+  }
 
   // Configure Google Calendar Link
-  if (calendarBtn) {
+  calendarBtns.forEach(btn => {
     const title = encodeURIComponent("Dilsha & Chathuka's Wedding");
-    const details = encodeURIComponent("We are overjoyed to celebrate our wedding day with you! Venue: Cinnamon Grand Colombo / Grand Ballroom");
+    const details = encodeURIComponent("Poruwa Ceremony & Reception. Cinnamon Grand Colombo");
     const location = encodeURIComponent("Cinnamon Grand, Colombo, Sri Lanka");
-    const dates = "20261114T113000Z/20261114T183000Z";
-    calendarBtn.href = `https://www.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${dates}&details=${details}&location=${location}&sf=true&output=xml`;
-  }
+    const dates = "20261114T050000Z/20261114T120000Z";
+    btn.href = `https://www.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${dates}&details=${details}&location=${location}&sf=true&output=xml`;
+  });
 
   if (!form) return;
 
@@ -38,13 +94,15 @@ export function initRSVPForm() {
     if (rsvpSavedCard) rsvpSavedCard.classList.remove('hidden');
     if (savedGuestDetails) {
       savedGuestDetails.innerHTML = `
-        <div class="space-y-2 text-left bg-white p-4 rounded-xl border border-rose-100">
-          <p class="font-serif text-xl font-bold text-[#37432b]">${escapeHtml(data.name)}</p>
-          <p class="text-sm text-gray-600"><strong>Status:</strong> ${data.attendance === 'yes' ? '✨ Joyfully Attending' : '💌 Regretfully Declining'} (${escapeHtml(data.guests || '1')} Guest${data.guests > 1 ? 's' : ''})</p>
-          <p class="text-xs text-gray-500"><strong>Contact:</strong> ${escapeHtml(data.phone || 'N/A')} • ${escapeHtml(data.email || 'N/A')}</p>
-          ${data.dietary ? `<p class="text-xs text-[#51603f]"><strong>Dietary:</strong> ${escapeHtml(data.dietary)}</p>` : ''}
-          ${data.alcohol ? `<p class="text-xs text-[#51603f]"><strong>Alcohol:</strong> ${data.alcohol === 'yes' ? 'Yes' : 'No'}</p>` : ''}
-          ${data.message ? `<p class="text-xs text-gray-600 italic border-t border-gray-100 pt-2">"${escapeHtml(data.message)}"</p>` : ''}
+        <div class="space-y-2 text-left bg-white/90 p-5 rounded-2xl border border-[#A98A4A]/30">
+          <p class="font-cinzel text-xl text-[#5A4D41] font-semibold">${escapeHtml(data.name)}</p>
+          <p class="text-xs uppercase tracking-widest text-[#A98A4A] font-semibold">
+            ${data.attendance === 'yes' ? '✨ Joyfully Accepts' : '💌 Regretfully Declines'} 
+            ${data.attendance === 'yes' ? `(${escapeHtml(data.guests || '1')} Guest${data.guests > 1 ? 's' : ''})` : ''}
+          </p>
+          <p class="text-xs text-[#837769]"><strong>Contact:</strong> ${escapeHtml(data.phone || 'N/A')} • ${escapeHtml(data.email || 'N/A')}</p>
+          ${data.dietary ? `<p class="text-xs text-[#5A4D41]"><strong>Dietary:</strong> ${escapeHtml(data.dietary)}</p>` : ''}
+          ${data.message ? `<p class="text-xs text-[#5A4D41] italic border-t border-[#A98A4A]/20 pt-2 font-serif-body">"${escapeHtml(data.message)}"</p>` : ''}
         </div>
       `;
     }
@@ -61,15 +119,14 @@ export function initRSVPForm() {
     e.preventDefault();
 
     const submitBtn = form.querySelector('button[type="submit"]');
-    const originalBtnText = submitBtn ? submitBtn.innerHTML : 'Send RSVP with Love';
+    const originalBtnText = submitBtn ? submitBtn.innerHTML : 'Send my reply';
 
     const name = document.getElementById('rsvp-name')?.value.trim();
-    const email = document.getElementById('rsvp-email')?.value.trim();
     const phone = document.getElementById('rsvp-phone')?.value.trim();
-    const attendance = document.querySelector('select[name="attendance"]')?.value || 'yes';
-    const guests = document.getElementById('rsvp-guests')?.value || '1';
+    const email = document.getElementById('rsvp-email')?.value.trim();
+    const attendance = attendanceInput?.value || 'yes';
+    const guests = attendance === 'yes' ? (guestInput?.value || '1') : '0';
     const dietary = document.getElementById('rsvp-dietary')?.value || 'Standard';
-    const alcohol = document.getElementById('rsvp-alcohol')?.value || 'yes';
     const message = document.getElementById('rsvp-message')?.value.trim() || '';
 
     if (!name) {
@@ -79,17 +136,16 @@ export function initRSVPForm() {
 
     const submission = {
       name,
-      email,
       phone,
+      email,
       attendance,
       guests,
       dietary,
-      alcohol,
       message,
       submittedAt: new Date().toISOString()
     };
 
-    // UI: Show loading state
+    // UI Loading state
     if (submitBtn) {
       submitBtn.disabled = true;
       submitBtn.innerHTML = `
@@ -98,12 +154,12 @@ export function initRSVPForm() {
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
           </svg>
-          Recording RSVP...
+          Sending Reply...
         </span>
       `;
     }
 
-    // 1. Send data to Google Sheets via Apps Script Webhook
+    // 1. Send data to Google Apps Script Webhook
     if (CONFIG.GOOGLE_SCRIPT_URL && CONFIG.GOOGLE_SCRIPT_URL.trim() !== '') {
       try {
         await fetch(CONFIG.GOOGLE_SCRIPT_URL.trim(), {
@@ -119,7 +175,7 @@ export function initRSVPForm() {
       }
     }
 
-    // 2. Save submission locally in browser storage
+    // 2. Save locally
     localStorage.setItem('wedding_rsvp_dilsha_chathuka', JSON.stringify(submission));
 
     // 3. Reset button
@@ -134,10 +190,10 @@ export function initRSVPForm() {
 
     if (attendance === 'yes') {
       confetti({
-        particleCount: 100,
-        spread: 80,
+        particleCount: 90,
+        spread: 75,
         origin: { y: 0.6 },
-        colors: ['#D4AF37', '#F472B6', '#51603F', '#FFFFFF', '#37432B']
+        colors: ['#A98A4A', '#C5A267', '#DFD5C2', '#FFFFFF', '#5A4D41']
       });
     }
 

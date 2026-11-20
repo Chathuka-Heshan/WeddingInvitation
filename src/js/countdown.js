@@ -1,4 +1,5 @@
-// Dynamic Countdown Timer for Dilsha & Chathuka Wedding
+// Countdown Timer for Dilsha & Chathuka Wedding
+// Target: Saturday, November 14, 2026, 10:30 AM (Asia/Colombo)
 
 export function initCountdownTimer() {
   const daysEl = document.getElementById('cd-days');
@@ -8,8 +9,7 @@ export function initCountdownTimer() {
 
   if (!daysEl || !hoursEl || !minutesEl || !secondsEl) return;
 
-  // Wedding Date: November 14, 2026, 17:00:00 (or custom date)
-  const weddingDate = new Date('2026-11-14T17:00:00+05:30').getTime();
+  const weddingDate = new Date('2026-11-14T10:30:00+05:30').getTime();
 
   function updateTimer() {
     const now = new Date().getTime();
